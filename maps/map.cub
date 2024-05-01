@@ -1,0 +1,12 @@
+SO ./path_to_south
+NO ./path_to_north
+WE ./path_to_west
+EA ./path_to_east
+
+F 220,100,0
+C 225,30,0
+
+111111111111
+10000W000001
+100000000001
+111111111111
