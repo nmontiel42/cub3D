@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:04:58 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 17:51:52 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:08:25 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		save_textures(t_data *data, char *text);
 int		save_textures_2(t_data *data, char **split_text, char **tc);
 
 //utils.c
-void	free_b_arr(char ***s);
+void	free_array(char ***s);
 void	free_data(t_data *d);
 void	free_data2(t_data *d);
 

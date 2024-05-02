@@ -6,28 +6,32 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:35:44 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 17:38:39 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:43:21 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	free_b_arr(char ***s)
+//Libera un array
+
+void	free_array(char ***str)
 {
 	int	a;
 
-	if (*s != NULL)
+	if (*str != NULL)
 	{
 		a = -1;
-		while ((*s)[++a] != NULL)
+		while ((*str)[++a] != NULL)
 		{
-			free((*s)[a]);
-			(*s)[a] = NULL;
+			free((*str)[a]);
+			(*str)[a] = NULL;
 		}
-		free(*s);
-		*s = NULL;
+		free(*str);
+		*str = NULL;
 	}
 }
+
+//pt.2, libera c_rgb , player, ray y direcciones
 
 void	free_data2(t_data *data)
 {
@@ -57,6 +61,8 @@ void	free_data2(t_data *data)
 	if (data->ray)
 		free(data->ray);
 }
+
+//Libera el mapa y f_rgb
 
 void	free_data(t_data *data)
 {

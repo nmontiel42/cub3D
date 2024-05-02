@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:18:09 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 17:19:06 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:18:07 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,20 +102,20 @@ int	save_textures(t_data *data, char *text)
 		data->j = data->i;
 		while (split_text[++data->j])
 			if (!ft_strncmp(split_text[data->i], split_text[data->j], 2))
-				return (free_b_arr(&split_text), free(text),
+				return (free_array(&split_text), free(text),
 					free(data->line), ft_error(DCLRS));
 		if (split_text[data->i][data->j])
 		{
 			if (save_textures_2(data, split_text, &tc))
-				return (free_b_arr(&split_text), free(tc), free(text), 1);
+				return (free_array(&split_text), free(tc), free(text), 1);
 			if ((!ft_strncmp(split_text[data->i], "F ", 2)
 					|| !ft_strncmp(split_text[data->i], "C ", 2))
 				&& check_colors(data, tc, split_text[data->i]))
-				return (free_b_arr(&split_text), free(tc), free(text), 1);
+				return (free_array(&split_text), free(tc), free(text), 1);
 			free(tc);
 		}
 	}
-	return (free_b_arr(&split_text), free(text), 0);
+	return (free_array(&split_text), free(text), 0);
 }
 
 int	read_map(t_data *data, char *map_fd)

@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:36:51 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 17:25:44 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:08:40 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	check_colors(t_data *d, char *tc, char *split_text)
 		j = -1;
 		while (rgb[d->k][++j])
 			if (!ft_isdigit(rgb[d->k][j]))
-				return (free_b_arr(&rgb), ft_error(ECLRS));
+				return (free_array(&rgb), ft_error(ECLRS));
 		if (ft_atoi(rgb[d->k]) > 255 || ft_atoi(rgb[d->k]) < 0 || comas != 2)
-			return (free_b_arr(&rgb), ft_error(ECLRS));
+			return (free_array(&rgb), ft_error(ECLRS));
 	}
 	if (!ft_strncmp(split_text, "F ", 2))
 		d->f_rgb = rgb;

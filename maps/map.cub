@@ -1,12 +1,13 @@
-SO ./path_to_south
-NO ./path_to_north
-WE ./path_to_west
-EA ./path_to_east
+SO textures/pinkmarmol.png
+NO textures/pinkmarmol.png
+WE textures/pinkmarmol.png
+EA textures/pinkmarmol.png
 
-F 220,100,0
-C 225,30,0
+F 255,188,179
+C 225,255,255
 
-111111111111
-10000W000001
-100000000001
-111111111111
+ 11111 11111
+100W001000001
+ 11000000011
+   1100011
+    11111 

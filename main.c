@@ -6,11 +6,13 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:03:53 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 17:49:23 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:18:16 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+//Comprueba que el archivo del mapa sea .cub
 
 int	check_map_name(char *name)
 {
@@ -22,6 +24,8 @@ int	check_map_name(char *name)
 		return (false);
 	return (true);
 }
+
+//Inicializa la estructura de datos que usamos
 
 void	init_data(t_data *data)
 {
@@ -64,10 +68,8 @@ int	main(int argc, char **argv)
 			ft_error(NOFD);
 		init_data(&data);
 		if (read_map(&data, argv[1]))
-		{
-
 			return (free_data(&data), 1);
-		}
+		free_data(&data);
 		return (0);
 	}
 	ft_error(WARG);
