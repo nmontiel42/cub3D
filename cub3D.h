@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:04:58 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/02 13:08:25 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:03:59 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,22 @@
 # define ESPC	12 //error de espacios
 # define ELMNT	13 //error de elementos
 # define ETEXT	14 //error de texturas
+# define ELIM	15 //error en los limites de la ventana
 
-typedef struct s_player
+# define WIDTH	2500
+# define HEIGHT	1300
+# define VIS	60
+
+typedef struct s_person
 {
-	int		plyr_x;// player x position in pixels
-	int		plyr_y;// player y position in pixels
+	int		pers_x;// player x position in pixels
+	int		pers_y;// player y position in pixels
 	double	angle;// player angle
 	float	fov_rd;// field of view in radians
 	int		rot;// rotation flag
-	int		l_r;// left right flag
-	int		u_d;// up down flag
-}	t_player;
+	int		lf_rt;// left right flag
+	int		up_dw;// up down flag
+}	t_person;
 
 typedef struct s_ray
 {
@@ -77,7 +82,7 @@ typedef struct s_data
 	mlx_image_t		*img; // the image
 	mlx_t			*mlx;// the mlx pointer
 	t_ray			*ray;// the ray structure
-	t_player		*ply;// the player structure
+	t_person		*person;// the player structure
 }	t_data;
 
 //check_map.c
@@ -95,6 +100,8 @@ int		ft_error2(int e);
 int		main(int argc, char **argv);
 int		check_map_name(char *name);
 void	ft_leaks(void);
+int		initialize_game(t_data *data);
+void	print_map(void *ks);
 
 //map.c
 int		save_map(t_data *data);
@@ -107,5 +114,9 @@ int		save_textures_2(t_data *data, char **split_text, char **tc);
 void	free_array(char ***s);
 void	free_data(t_data *d);
 void	free_data2(t_data *d);
+
+//keys.c
+void	keys(mlx_key_data_t k, void *ks);
+void	keys2(mlx_key_data_t k, void *ks);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:03:53 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/02 13:18:16 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:03:40 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,37 @@ void	init_data(t_data *data)
 	data->mlx = NULL;
 	data->p_x = 0;
 	data->p_y = 0;
-	data->ply = NULL;
+	data->person = NULL;
 	data->ray = NULL;
 	data->e_counter = 0;
+}
+
+int	initialize_game(t_data *data)
+{
+	if (WIDTH > 2500 || HEIGHT > 1300 || VIS >= 180 || VIS <= 0)
+		return (ft_error2(ELIM));
+	data->person = ft_calloc(1, sizeof(t_person));
+	data->ray = ft_calloc(1, sizeof(t_ray));
+	data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", false);
+	if (!data->person || !data->ray || !data->mlx)
+		return (1);
+	//angulo del jugador
+	mlx_key_hook(data->mlx, &keys, data);
+	mlx_loop_hook(data->mlx, &print_map, data);
+	mlx_loop(data->mlx);
+	return (0);
+}
+
+void	print_map(void *ks)
+{
+	t_data	*data;
+
+	data = ks;
+	mlx_delete_image(data->mlx, data->img);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	//rotacion del jugador
+	//raycasting del mapa
+	mlx_image_to_window(data->mlx, data->img, 0, 0);
 }
 
 int	main(int argc, char **argv)
@@ -62,13 +90,18 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		if (!check_map_name(argv[1]))
-			ft_error(WNAME);
+			return (ft_error(WNAME));
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
-			ft_error(NOFD);
+			return (ft_error(NOFD));
 		init_data(&data);
 		if (read_map(&data, argv[1]))
 			return (free_data(&data), 1);
+		if (initialize_game(&data))
+			return (free_data(&data), 1);
+		/*int i = -1;
+		while (data.map[++i])
+			printf("%s\n", data.map[i]);*/
 		free_data(&data);
 		return (0);
 	}

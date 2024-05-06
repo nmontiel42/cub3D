@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:35:44 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/02 16:43:21 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:08:41 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	free_data2(t_data *data)
 		mlx_delete_texture(data->we);
 	if (data->ea)
 		mlx_delete_texture(data->ea);
-	if (data->ply)
-		free(data->ply);
+	if (data->person)
+		free(data->person);
 	if (data->ray)
 		free(data->ray);
 }

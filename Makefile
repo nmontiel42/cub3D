@@ -10,7 +10,8 @@ SRC =		check_map.c \
 			error.c \
 			main.c \
 			map.c \
-			utils.c
+			utils.c \
+			keys.c
 
 OBJT_DIR = objt
 
@@ -61,6 +62,6 @@ re: fclean all
 
 
 norma: 
-	norminette ${SRCS}
+	norminette ${SRC}
 
 .PHONY: all, clean, fclean, re, libmlx, libft

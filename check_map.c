@@ -6,13 +6,15 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:36:51 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/02 13:08:40 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:53:09 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	check_colors(t_data *d, char *tc, char *split_text)
+/* Valida y asigna los colores definidos en el mapa a t_data */
+
+int	check_colors(t_data *d, char *t_c, char *split_text)
 {
 	int		j;
 	int		comas;
@@ -20,10 +22,10 @@ int	check_colors(t_data *d, char *tc, char *split_text)
 
 	d->k = -1;
 	comas = 0;
-	while (tc && tc[++d->k])
-		if (tc[d->k] == ',')
+	while (t_c && t_c[++d->k])
+		if (t_c[d->k] == ',')
 			comas++;
-	rgb = ft_split(tc, ',');
+	rgb = ft_split(t_c, ',');
 	d->k = -1;
 	while (rgb && rgb[++d->k])
 	{
@@ -40,6 +42,8 @@ int	check_colors(t_data *d, char *tc, char *split_text)
 		d->c_rgb = rgb;
 	return (0);
 }
+
+/* Analiza el mapa para comprobar que es valido */
 
 int	check_map(t_data *d)
 {
@@ -70,6 +74,9 @@ int	check_map(t_data *d)
 	return (0);
 }
 
+/* Verifica si las priemras y las ultimas lineas del mapa son unicamente
+espacios u otros caracteres especiales seguidos por un 1 */
+
 int	check_only_spaces_fl(t_data *d)
 {
 	d->i = -1;
@@ -84,6 +91,9 @@ int	check_only_spaces_fl(t_data *d)
 	}
 	return (0);
 }
+
+/* Verifica si el mapa tiene solo caracteres validos y un elemento de jugador
+(N, S, E o W) */
 
 int	check_elements_map(t_data *d)
 {
@@ -110,6 +120,9 @@ int	check_elements_map(t_data *d)
 		return (ft_error2(ELMNT));
 	return (0);
 }
+
+/* Lee las lineas del mapa y recopila informacion sobre las texturas y 
+los colores. Comprueba que estan las 6 que tiene que haber y si son validas */
 
 int	check_elements(t_data *d, char **text)
 {

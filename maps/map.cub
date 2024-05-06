@@ -1,10 +1,10 @@
-SO textures/pinkmarmol.png
-NO textures/pinkmarmol.png
-WE textures/pinkmarmol.png
-EA textures/pinkmarmol.png
+SO textures/south.png
+NO textures/north.png
+WE textures/west.png
+EA textures/east.png
 
 F 255,188,179
-C 225,255,255
+C 225,215,0
 
  11111 11111
 100W001000001

@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:41:45 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/01 16:58:32 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:52:39 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,39 @@
 int	ft_error(int e)
 {
 	if (e == WNAME)
-		printf("Invalid map format\n");
+		printf("Error\nInvalid map format\n");
 	else if (e == WARG)
-		printf("Invalid arguments\n");
+		printf("Error\nInvalid arguments\n");
 	else if (e == NOFD)
-		printf("Invalid file\n");
+		printf("Error\nInvalid file\n");
 	else if (e == OMAP)
-		printf("Error opening map\n");
+		printf("Error\nFailed opening map\n");
 	else if (e == EGNL)
-		printf("get_next_line failed\n");
+		printf("Error\nget_next_line failed\n");
 	else if (e == EIMG)
-		printf("Image error\n");
+		printf("Error\nImage error\n");
 	else if (e == DCLRS)
-		printf("Duplicate colors or textures\n");
+		printf("Error\nDuplicate colors or textures\n");
 	else if (e == ELINE)
-		printf("Error obtaining line\n");
+		printf("Error\nFailed obtaining line\n");
 	else if (e == ECLRS)
-		printf("Error in colors\n");
+		printf("Error\nError in colors\n");
 	else if (e == EWALL)
-		printf("Map not closed by walls\n");
+		printf("Error\nMap not closed by walls\n");
 	else if (e == EVYH)
-		printf("Map H/V incorrect element\n");
+		printf("Error\nMap H/V incorrect element\n");
 	else if (e == ESPC)
-		printf("Only spaces in first line\n");
+		printf("Error\nOnly spaces in first line\n");
 	return (ft_error2(e));
 }
 
 int	ft_error2(int e)
 {
 	if (e == ELMNT)
-		printf("Incorrect map elements\n");
+		printf("Error\nIncorrect map elements\n");
 	else if (e == ETEXT)
-		printf("Incorrect textures\n");
+		printf("Error\nIncorrect textures or colors\n");
+	else if (e == ELIM)
+		printf("Error\nHeight, width or fov out of limits\n");
 	return (1);
 }
