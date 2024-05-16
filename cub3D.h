@@ -6,7 +6,7 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:04:58 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/03 15:03:59 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:58:12 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,55 +18,67 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <math.h>
 
-# define WNAME	1 //nombre del archivo invalido
-# define WARG	2 //argumentos invalidos
-# define NOFD	3 //archivo inexistente
-# define OMAP	4 //error abriendo el mapa
-# define EGNL	5 //error de get next line
-# define EIMG	6 //error de  imagen
-# define DCLRS	7 //Texturas o colores duplicados
-# define ELINE	8 //error en line
-# define ECLRS	9 //error en los colores
-# define EWALL	10 //error en los muros
-# define EVYH	11 //error horizontal y vertical
-# define ESPC	12 //error de espacios
-# define ELMNT	13 //error de elementos
-# define ETEXT	14 //error de texturas
-# define ELIM	15 //error en los limites de la ventana
+# define W_NAME		1
+# define W_ARG		2
+# define N_OFD		3
+# define O_MAP		4
+# define E_GNL		5
+# define E_IMG		6
+# define D_CLRS		7
+# define E_LINE		8
+# define E_CLRS		9
+# define E_WALL		10
+# define E_VYH		11
+# define E_SPC		12
+# define E_ELMNT	13
+# define E_TEXT		14
+# define E_LIM		15
+# define E_SPLIT	16
+# define EM_CLR		17
+# define N_MAP		18
 
-# define WIDTH	2500
-# define HEIGHT	1300
-# define VIS	60
+# define WIDTH		2300
+# define HEIGHT		1300
+# define SIZE		30
+# define VISION		70
+# define SPEED		3
+# define ROTATION	0.08
 
 typedef struct s_person
 {
-	int		pers_x;// player x position in pixels
-	int		pers_y;// player y position in pixels
-	double	angle;// player angle
-	float	fov_rd;// field of view in radians
-	int		rot;// rotation flag
-	int		lf_rt;// left right flag
-	int		up_dw;// up down flag
+	int		pers_x;
+	int		pers_y;
+	double	ang;
+	float	vis_rd;
+	int		rot;
+	int		lf_rt;
+	int		up_dw;
 }	t_person;
 
 typedef struct s_ray
 {
-	double	ray_angle;// ray angle
-	double	distance;// distance to the wall
-	int		flag;// flag for the wall
+	double	ang;
+	double	distan;
+	int		flag;
+	double	ver_x;
+	double	ver_y;
+	double	hor_x;
+	double	hor_y;
+	int		index;
 }	t_ray;
 
 typedef struct s_data
 {
-	char			**map;// the map
-	int				p_x;// player x position in the map
-	int				p_y;// player y position in the map
-	int				w_map;// map width
-	int				h_map;// map height
+	char			**map;
+	int				p_x;
+	int				p_y;
+	int				w_map;
+	int				h_map;
 	int				fd;
-	int				e_counter; //Contador de los elementos del mapa, c_pos
-	char			orientation; // Caracter de la orientacion del personaje
+	int				e_counter;
+	char			orientation;
 	char			*line;
 	int				count_textures;
 	int				i;
@@ -79,44 +91,73 @@ typedef struct s_data
 	mlx_texture_t	*so;
 	mlx_texture_t	*we;
 	mlx_texture_t	*ea;
-	mlx_image_t		*img; // the image
-	mlx_t			*mlx;// the mlx pointer
-	t_ray			*ray;// the ray structure
-	t_person		*person;// the player structure
+	mlx_image_t		*img;
+	mlx_t			*mlx;
+	t_ray			*ray;
+	t_person		*person;
 }	t_data;
 
 //check_map.c
-int		check_map(t_data *d);
-int		check_elements(t_data *data, char **text);
-int		check_only_spaces_fl(t_data *d);
-int		check_elements_map(t_data *d);
-int		check_colors(t_data *d, char *tc, char *split_text);
+int				check_map(t_data *d);
+int				check_elements(t_data *data, char **text);
+int				check_only_spaces_fl(t_data *d);
+int				check_elements_map(t_data *d);
+int				check_colors(t_data *d, char *tc, char *split_text);
 
 //error.c
-int		ft_error(int e);
-int		ft_error2(int e);
+int				ft_error(int e);
+int				ft_error2(int e);
 
 //main.c
-int		main(int argc, char **argv);
-int		check_map_name(char *name);
-void	ft_leaks(void);
-int		initialize_game(t_data *data);
-void	print_map(void *ks);
+int				main(int argc, char **argv);
+int				check_map_name(char *name);
+void			ft_leaks(void);
+int				initialize_game(t_data *data);
+void			ft_angle(t_data *data);
+void			print_map(void *ks);
+void			init_data(t_data *data);
 
 //map.c
-int		save_map(t_data *data);
-int		fix_map(t_data *d);
-int		read_map(t_data *data, char *map_fd);
-int		save_textures(t_data *data, char *text);
-int		save_textures_2(t_data *data, char **split_text, char **tc);
+int				save_map(t_data *data);
+int				fix_map(t_data *d);
+int				read_map(t_data *data, char *map_fd);
+int				save_textures(t_data *data, char *text);
+int				save_textures_2(t_data *data, char **split_text, char **tc);
+int				process_textures_and_colors(t_data *data, char **split_text,
+					char **t_c);
+void			check_textures(t_data *d, char **texture);
+
+//camera.c
+void			all_movement(t_data *data, double x, double y);
+void			cam_rotation(t_data *data, int i);
+void			movement(t_data *data, double x, double y);
 
 //utils.c
-void	free_array(char ***s);
-void	free_data(t_data *d);
-void	free_data2(t_data *d);
+void			free_array(char ***s);
+void			free_data(t_data *d);
+void			free_data2(t_data *d);
 
 //keys.c
-void	keys(mlx_key_data_t k, void *ks);
-void	keys2(mlx_key_data_t k, void *ks);
+void			keys(mlx_key_data_t k, void *ks);
+void			keys2(mlx_key_data_t k, void *ks);
+
+//raycasting.c
+void			raycasting(t_data *data);
+float			horizontal_cross(t_data *data, float angle);
+float			vertical_cross(t_data *data, float angle);
+int				check_cross(float angle, float *cross, float *step_size, \
+				int horizon);
+int				angle_circle(float angle, char axis);
+int				check_wall_hit(t_data *data, float x, float y);
+float			check_angle(float angle);
+
+//render.c
+void			render_walls(t_data *data, int ray);
+void			create_walls(t_data *data, double wall_h, int t_pix, int b_pix);
+mlx_texture_t	*get_texture(t_data *data, int flag);
+double			get_x_coor(t_data *data, mlx_texture_t *texture);
+void			create_pixels(t_data *data, int x, int y, int color);
+int				reverse_bytes(int i);
+int				get_colors(int r, int g, int b, int a);
 
 #endif

@@ -6,67 +6,28 @@
 /*   By: nmontiel <montielarce9@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:03:53 by nmontiel          #+#    #+#             */
-/*   Updated: 2024/05/03 15:03:40 by nmontiel         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:59:45 by nmontiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-//Comprueba que el archivo del mapa sea .cub
-
-int	check_map_name(char *name)
+void	ft_angle(t_data *data)
 {
-	int	i;
+	char	degrees;
 
-	i = ft_strlen(name) - 1;
-	if (name[i] != 'b' || name[i - 1] != 'u'
-		|| name[i - 2] != 'c' || name[i - 3] != '.')
-		return (false);
-	return (true);
-}
-
-//Inicializa la estructura de datos que usamos
-
-void	init_data(t_data *data)
-{
-	data->c_rgb = NULL;
-	data->f_rgb = NULL;
-	data->count_textures = 0;
-	data->fd = 0;
-	data->i = 0;
-	data->j = 0;
-	data->k = 0;
-	data->h_map = 0;
-	data->w_map = 0;
-	data->ea = NULL;
-	data->no = NULL;
-	data->so = NULL;
-	data->we = NULL;
-	data->img = NULL;
-	data->line = NULL;
-	data->map = NULL;
-	data->mlx = NULL;
-	data->p_x = 0;
-	data->p_y = 0;
-	data->person = NULL;
-	data->ray = NULL;
-	data->e_counter = 0;
-}
-
-int	initialize_game(t_data *data)
-{
-	if (WIDTH > 2500 || HEIGHT > 1300 || VIS >= 180 || VIS <= 0)
-		return (ft_error2(ELIM));
-	data->person = ft_calloc(1, sizeof(t_person));
-	data->ray = ft_calloc(1, sizeof(t_ray));
-	data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", false);
-	if (!data->person || !data->ray || !data->mlx)
-		return (1);
-	//angulo del jugador
-	mlx_key_hook(data->mlx, &keys, data);
-	mlx_loop_hook(data->mlx, &print_map, data);
-	mlx_loop(data->mlx);
-	return (0);
+	degrees = data->map[data->p_y][data->p_x];
+	if (degrees == 'N')
+		data->person->ang = (3 * M_PI) / 2;
+	if (degrees == 'E')
+		data->person->ang = 0;
+	if (degrees == 'S')
+		data->person->ang = M_PI / 2;
+	if (degrees == 'W')
+		data->person->ang = M_PI;
+	data->person->pers_x = (data->p_x * SIZE) + SIZE / 2;
+	data->person->pers_y = (data->p_y * SIZE) + SIZE / 2;
+	data->person->vis_rd = (VISION * M_PI / 180);
 }
 
 void	print_map(void *ks)
@@ -76,9 +37,25 @@ void	print_map(void *ks)
 	data = ks;
 	mlx_delete_image(data->mlx, data->img);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	//rotacion del jugador
-	//raycasting del mapa
+	all_movement(data, 0, 0);
+	raycasting(data);
 	mlx_image_to_window(data->mlx, data->img, 0, 0);
+}
+
+int	initialize_game(t_data *data)
+{
+	if (WIDTH > 2500 || HEIGHT > 1300 || VISION >= 180 || VISION <= 0)
+		return (ft_error2(E_LIM));
+	data->person = ft_calloc(1, sizeof(t_person));
+	data->ray = ft_calloc(1, sizeof(t_ray));
+	data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", false);
+	if (!data->person || !data->ray || !data->mlx)
+		return (1);
+	ft_angle(data);
+	mlx_key_hook(data->mlx, &keys, data);
+	mlx_loop_hook(data->mlx, &print_map, data);
+	mlx_loop(data->mlx);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -86,34 +63,20 @@ int	main(int argc, char **argv)
 	int		fd;
 	t_data	data;
 
-	atexit(ft_leaks);
 	if (argc == 2)
 	{
 		if (!check_map_name(argv[1]))
-			return (ft_error(WNAME));
+			return (ft_error(W_NAME));
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
-			return (ft_error(NOFD));
+			return (ft_error(N_OFD));
 		init_data(&data);
 		if (read_map(&data, argv[1]))
 			return (free_data(&data), 1);
 		if (initialize_game(&data))
 			return (free_data(&data), 1);
-		/*int i = -1;
-		while (data.map[++i])
-			printf("%s\n", data.map[i]);*/
 		free_data(&data);
 		return (0);
 	}
-	ft_error(WARG);
+	ft_error(W_ARG);
 }
-
-void	ft_leaks(void)
-{
-	system("leaks -q cub3D");
-}
-
-//imprimir mapa
-/*int i = -1;
-while (data.map[++i])
-	printf("%s\n", data.map[i]);*/

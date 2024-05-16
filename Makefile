@@ -1,17 +1,24 @@
 NAME = cub3D
 
 ifeq ($(shell uname), Darwin)
-	INCFLAGS =  -DEBUG=1 -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+	INCFLAGS =  -DEBUG=1 -Iinclude -lm -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 else
-	INCFLAGS = -ldl -DEBUG=1 -Iinclude -lglfw -L"usr/lib/x86_64-linux-gnu/"
+	INCFLAGS = -ldl -DEBUG=1 -Iinclude -lm -lglfw -L"usr/lib/x86_64-linux-gnu/"
 endif
 
 SRC =		check_map.c \
-			error.c \
+			check_error.c \
+			checker.c \
+			camera.c \
+			init_data.c \
+			map_utils.c \
 			main.c \
 			map.c \
-			utils.c \
-			keys.c
+			free.c \
+			keys.c \
+			raycasting.c \
+			render.c \
+			render_utils.c
 
 OBJT_DIR = objt
 
